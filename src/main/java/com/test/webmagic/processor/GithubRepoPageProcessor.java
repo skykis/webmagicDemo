@@ -42,7 +42,14 @@ public class GithubRepoPageProcessor implements PageProcessor {
         Pattern p_html = Pattern.compile(regEx_html, Pattern.CASE_INSENSITIVE);
         List<String> tables = table.stream().
                 map(x ->
-                        StringEscapeUtils.unescapeHtml4(p_html.matcher(x.trim()).replaceAll("").replace("\n", "").replaceAll("[ 0-9 ]", " ").replaceAll("\\s+", " ")))
+                        StringEscapeUtils.unescapeHtml4(
+                                p_html.matcher(x.trim())
+                                .replaceAll("")
+                                .replace("\n", "")
+                                .replaceAll("[ 0-9 ]", " ")
+                                .replaceAll("\\s+", " ")
+                        )
+                )
                 .collect(Collectors.toList());
         List<Result> results = new ArrayList<>();
         for (int i = 0; i < urls.size(); i++) {
@@ -70,8 +77,8 @@ public class GithubRepoPageProcessor implements PageProcessor {
         String filePath = "D:\\webmagic\\";
         // 搜索关键字
         String[] keyword = {"keyword"};
-        for (int i = 0; i < keyword.length; i++) {
-            Spider.create(new GithubRepoPageProcessor()).addUrl("https://github.com/search?q=" + keyword[i] + "&type=Code").addPipeline(new JsonFilePipeline(filePath + keyword[i] + "\\")).thread(3).run();
+        for (String s : keyword) {
+            Spider.create(new GithubRepoPageProcessor()).addUrl("https://github.com/search?q=" + s + "&type=Code").addPipeline(new JsonFilePipeline(filePath + s + "\\")).thread(3).run();
         }
     }
 }
