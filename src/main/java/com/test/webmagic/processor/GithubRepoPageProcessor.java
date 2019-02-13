@@ -78,7 +78,11 @@ public class GithubRepoPageProcessor implements PageProcessor {
         // 搜索关键字
         String[] keyword = {"keyword"};
         for (String s : keyword) {
-            Spider.create(new GithubRepoPageProcessor()).addUrl("https://github.com/search?q=" + s + "&type=Code").addPipeline(new JsonFilePipeline(filePath + s + "\\")).thread(3).run();
+            Spider.create(new GithubRepoPageProcessor())
+                    .addUrl("https://github.com/search?q=" + s + "&type=Code")
+                    .addPipeline(new JsonFilePipeline(filePath + s + "\\"))
+                    .thread(3)
+                    .run();
         }
     }
 }
